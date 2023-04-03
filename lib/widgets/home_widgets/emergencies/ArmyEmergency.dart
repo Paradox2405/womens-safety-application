@@ -39,7 +39,7 @@ class ArmyEmergency extends StatelessWidget {
                   CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.white.withOpacity(0.5),
-                    child: Image.asset('assets/army.png'),
+                    child: Icon(Icons.apartment),
                   ),
                   Expanded(
                     child: Column(
@@ -47,7 +47,7 @@ class ArmyEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'NACTA',
+                          'Information Center',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -55,7 +55,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'National counter Terrorsim Authority',
+                          'Get government information',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * 0.045,
@@ -70,7 +70,7 @@ class ArmyEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '1 -7 -1 -7',
+                              ' 1 -9 -1 -9 ',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,

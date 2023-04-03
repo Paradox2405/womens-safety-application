@@ -16,7 +16,7 @@ class PoliceEmergency extends StatelessWidget {
           borderRadius: BorderRadius.circular(20),
         ),
         child: InkWell(
-          onTap: () => _callNumber('15'),
+          onTap: () => _callNumber('119'),
           child: Container(
             height: 180,
             width: MediaQuery.of(context).size.width * 0.7,
@@ -47,7 +47,7 @@ class PoliceEmergency extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Active Emergency',
+                          'Police Emergency',
                           style: TextStyle(
                             color: Colors.white,
                             fontWeight: FontWeight.bold,
@@ -70,7 +70,7 @@ class PoliceEmergency extends StatelessWidget {
                           ),
                           child: Center(
                             child: Text(
-                              '0-1-5',
+                              '1-1-9',
                               style: TextStyle(
                                 color: Colors.red[300],
                                 fontWeight: FontWeight.bold,
