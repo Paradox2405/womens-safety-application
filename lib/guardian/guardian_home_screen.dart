@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:women_safety_app/chat_module/chat_screen.dart';
 import 'package:women_safety_app/utils/constants.dart';
 
-import '../child/child_login_screen.dart';
+import '../login_screen.dart';
 
-class ParentHomeScreen extends StatelessWidget {
-  const ParentHomeScreen({Key? key}) : super(key: key);
+class GuardianHomeScreen extends StatelessWidget {
+  const GuardianHomeScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

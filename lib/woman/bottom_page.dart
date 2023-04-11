@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/child/bottom_screens/add_contacts.dart';
-import 'package:women_safety_app/child/bottom_screens/chat_page.dart';
-import 'package:women_safety_app/child/bottom_screens/child_home_page.dart';
-import 'package:women_safety_app/child/bottom_screens/profile_page.dart';
-import 'package:women_safety_app/child/bottom_screens/review_page.dart';
+import 'package:women_safety_app/woman/bottom_screens/add_contacts.dart';
+import 'package:women_safety_app/woman/bottom_screens/chat_page.dart';
+import 'package:women_safety_app/woman/bottom_screens/woman_home_page.dart';
+import 'package:women_safety_app/woman/bottom_screens/profile_page.dart';
+import 'package:women_safety_app/woman/bottom_screens/review_page.dart';
 
 class BottomPage extends StatefulWidget {
   BottomPage({Key? key}) : super(key: key);

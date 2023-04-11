@@ -1,24 +1,23 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/child/child_login_screen.dart';
-import 'package:women_safety_app/model/user_model.dart';
+import 'package:women_safety_app/login_screen.dart';
 import 'package:women_safety_app/utils/constants.dart';
 import '../components/PrimaryButton.dart';
 import '../components/SecondaryButton.dart';
 import '../components/custom_textfield.dart';
+import '../model/user_model.dart';
 
-class RegisterChildScreen extends StatefulWidget {
+class RegisterGuardianScreen extends StatefulWidget {
   @override
-  State<RegisterChildScreen> createState() => _RegisterChildScreenState();
+  State<RegisterGuardianScreen> createState() => _RegisterGuardianScreenState();
 }
 
-class _RegisterChildScreenState extends State<RegisterChildScreen> {
+class _RegisterGuardianScreenState extends State<RegisterGuardianScreen> {
   bool isPasswordShown = true;
   bool isRetypePasswordShown = true;
 
   final _formKey = GlobalKey<FormState>();
-
   final _formData = Map<String, Object>();
   bool isLoading = false;
 
@@ -34,24 +33,21 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
         });
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-                email: _formData['cemail'].toString(),
+                email: _formData['gemail'].toString(),
                 password: _formData['password'].toString());
         if (userCredential.user != null) {
-          setState(() {
-            isLoading = true;
-          });
           final v = userCredential.user!.uid;
           DocumentReference<Map<String, dynamic>> db =
               FirebaseFirestore.instance.collection('users').doc(v);
 
           final user = UserModel(
-            name: _formData['name'].toString(),
-            phone: _formData['phone'].toString(),
-            childEmail: _formData['cemail'].toString(),
-            guardianEmail: _formData['gemail'].toString(),
-            id: v,
-            type: 'child',
-          );
+              name: _formData['name'].toString(),
+              phone: _formData['phone'].toString(),
+              childEmail: _formData['cemail'].toString(),
+              guardianEmail: _formData['gemail'].toString(),
+              id: v,
+              
+              type: 'parent');
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
             goTo(context, LoginScreen());
@@ -61,6 +57,9 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
           });
         }
       } on FirebaseAuthException catch (e) {
+        setState(() {
+          isLoading = false;
+        });
         if (e.code == 'weak-password') {
           print('The password provided is too weak.');
           dialogueBox(context, 'The password provided is too weak.');
@@ -68,9 +67,6 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
           print('The account already exists for that email.');
           dialogueBox(context, 'The account already exists for that email.');
         }
-        setState(() {
-          isLoading = false;
-        });
       } catch (e) {
         print(e);
         setState(() {
@@ -102,7 +98,7 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  "REGISTER AS WOMAN",
+                                  "REGISTER AS GUARDIAN",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 40,
@@ -161,7 +157,7 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
                                     keyboardtype: TextInputType.emailAddress,
                                     prefix: Icon(Icons.person),
                                     onsave: (email) {
-                                      _formData['cemail'] = email ?? "";
+                                      _formData['gemail'] = email ?? "";
                                     },
                                     validate: (email) {
                                       if (email!.isEmpty ||
@@ -172,12 +168,12 @@ class _RegisterChildScreenState extends State<RegisterChildScreen> {
                                     },
                                   ),
                                   CustomTextField(
-                                    hintText: 'enter guardian email',
+                                    hintText: 'enter child email',
                                     textInputAction: TextInputAction.next,
                                     keyboardtype: TextInputType.emailAddress,
                                     prefix: Icon(Icons.person),
-                                    onsave: (gemail) {
-                                      _formData['gemail'] = gemail ?? "";
+                                    onsave: (cemail) {
+                                      _formData['cemail'] = cemail ?? "";
                                     },
                                     validate: (email) {
                                       if (email!.isEmpty ||

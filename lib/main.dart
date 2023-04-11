@@ -2,12 +2,13 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:women_safety_app/db/share_pref.dart';
-import 'package:women_safety_app/child/bottom_screens/child_home_page.dart';
-import 'package:women_safety_app/child/child_login_screen.dart';
-import 'package:women_safety_app/parent/parent_home_screen.dart';
+
+import 'package:women_safety_app/guardian/guardian_home_screen.dart';
 import 'package:women_safety_app/utils/constants.dart';
 
-import 'child/bottom_page.dart';
+import 'woman/bottom_page.dart';
+import 'login_screen.dart';
+
 
 final navigatorkey = GlobalKey<ScaffoldMessengerState>();
 
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
             return BottomPage();
           }
           if (snapshot.data == "parent") {
-            return ParentHomeScreen();
+            return GuardianHomeScreen();
           }
 
           return progressIndicator(context);

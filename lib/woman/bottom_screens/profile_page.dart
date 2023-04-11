@@ -8,10 +8,11 @@ import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:uuid/uuid.dart';
-import 'package:women_safety_app/child/child_login_screen.dart';
 import 'package:women_safety_app/components/PrimaryButton.dart';
 import 'package:women_safety_app/components/custom_textfield.dart';
 import 'package:women_safety_app/utils/constants.dart';
+
+import '../../login_screen.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -129,6 +130,16 @@ class _ProfilePageState extends State<ProfilePage> {
                                       ? Fluttertoast.showToast(
                                           msg: 'please select profile picture')
                                       : update();
+                                }
+                              }),
+                          PrimaryButton(
+                              title: "SIGN OUT",
+                              onPressed: () async {
+                                try {
+                                  await FirebaseAuth.instance.signOut();
+                                  goTo(context, LoginScreen());
+                                } on FirebaseAuthException catch (e) {
+                                  dialogueBox(context, e.toString());
                                 }
                               })
                         ],

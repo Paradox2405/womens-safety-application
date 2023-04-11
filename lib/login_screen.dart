@@ -1,16 +1,16 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:women_safety_app/child/bottom_page.dart';
 import 'package:women_safety_app/components/PrimaryButton.dart';
 import 'package:women_safety_app/components/SecondaryButton.dart';
 import 'package:women_safety_app/components/custom_textfield.dart';
-import 'package:women_safety_app/child/register_child.dart';
 import 'package:women_safety_app/db/share_pref.dart';
-import 'package:women_safety_app/parent/parent_register_screen.dart';
+import 'package:women_safety_app/guardian/guardian_register_screen.dart';
 import 'package:women_safety_app/utils/constants.dart';
+import 'package:women_safety_app/woman/register_woman.dart';
 
-import '../parent/parent_home_screen.dart';
+import 'guardian/guardian_home_screen.dart';
+import 'woman/bottom_page.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -45,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
           if (value['type'] == 'parent') {
             print(value['type']);
             MySharedPrefference.saveUserType('parent');
-            goTo(context, ParentHomeScreen());
+            goTo(context, GuardianHomeScreen());
           } else {
             MySharedPrefference.saveUserType('child');
 
@@ -177,12 +177,12 @@ class _LoginScreenState extends State<LoginScreen> {
                         SecondaryButton(
                             title: 'Register as Woman',
                             onPressed: () {
-                              goTo(context, RegisterChildScreen());
+                              goTo(context, RegisterWomanScreen());
                             }),
                         SecondaryButton(
                             title: 'Register as Guardian',
                             onPressed: () {
-                              goTo(context, RegisterParentScreen());
+                              goTo(context, RegisterGuardianScreen());
                             }),
                       ],
                     ),
