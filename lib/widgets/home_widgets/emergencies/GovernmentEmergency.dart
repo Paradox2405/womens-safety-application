@@ -39,7 +39,7 @@ class ArmyEmergency extends StatelessWidget {
                   CircleAvatar(
                     radius: 25,
                     backgroundColor: Colors.white.withOpacity(0.5),
-                    child: Icon(Icons.apartment),
+                    child: Image.asset('assets/office.png'),
                   ),
                   Expanded(
                     child: Column(
@@ -68,15 +68,13 @@ class ArmyEmergency extends StatelessWidget {
                             color: Colors.white,
                             borderRadius: BorderRadius.circular(20),
                           ),
-                          child: Center(
-                            child: Text(
-                              ' 1 -9 -1 -9 ',
-                              style: TextStyle(
-                                color: Colors.red[300],
-                                fontWeight: FontWeight.bold,
-                                fontSize:
-                                    MediaQuery.of(context).size.width * 0.050,
-                              ),
+                          child: Text(
+                            ' 1-9-1-9 ',
+                            style: TextStyle(
+                              color: Colors.red[300],
+                              fontWeight: FontWeight.bold,
+                              fontSize:
+                              MediaQuery.of(context).size.width * 0.055,
                             ),
                           ),
                         ),

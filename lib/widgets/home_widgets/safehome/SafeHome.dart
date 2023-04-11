@@ -34,11 +34,11 @@ class _SafeHomeState extends State<SafeHome> {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      Fluttertoast.showToast(msg: "Location permissions are  denind");
+      Fluttertoast.showToast(msg: "Location permissions are  denied");
       if (permission == LocationPermission.deniedForever) {
         await Geolocator.requestPermission();
         Fluttertoast.showToast(
-            msg: "Location permissions are permanently denind");
+            msg: "Location permissions are permanently denied");
       }
     }
     Geolocator.getCurrentPosition(
@@ -89,7 +89,7 @@ class _SafeHomeState extends State<SafeHome> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "SEND YOUR CUURENT LOCATION IMMEDIATELY TO YOU EMERGENCY CONTACTS",
+                  "SEND YOUR CURRENT LOCATION IMMEDIATELY TO YOU EMERGENCY CONTACTS",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20),
                 ),

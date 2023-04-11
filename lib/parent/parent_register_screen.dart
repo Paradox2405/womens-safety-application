@@ -98,7 +98,7 @@ class _RegisterParentScreenState extends State<RegisterParentScreen> {
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
                                 Text(
-                                  "REGISTER AS Parent",
+                                  "REGISTER AS GUARDIAN",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
                                       fontSize: 40,

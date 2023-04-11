@@ -71,8 +71,8 @@ class _ChatScreenState extends State<ChatScreen> {
                       return Center(
                         child: Text(
                           type == "parent"
-                              ? "TALK WITH CHILD"
-                              : "TALK WITH PARENT",
+                              ? "TALK WITH WOMAN"
+                              : "TALK WITH GUARDIAN",
                           style: TextStyle(fontSize: 30),
                         ),
                       );
