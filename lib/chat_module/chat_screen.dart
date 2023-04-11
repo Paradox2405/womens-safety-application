@@ -70,7 +70,7 @@ class _ChatScreenState extends State<ChatScreen> {
                     if (snapshot.data!.docs.length < 1) {
                       return Center(
                         child: Text(
-                          type == "parent"
+                          type == "guardian"
                               ? "TALK WITH WOMAN"
                               : "TALK WITH GUARDIAN",
                           style: TextStyle(fontSize: 30),

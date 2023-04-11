@@ -42,7 +42,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.data == "child") {
             return BottomPage();
           }
-          if (snapshot.data == "parent") {
+          if (snapshot.data == "guardian") {
             return GuardianHomeScreen();
           }
 
@@ -57,7 +57,7 @@ class MyApp extends StatelessWidget {
 //   // const CheckAuth({Key? key}) : super(key: key);
 
 //   checkData() {
-//     if (MySharedPrefference.getUserType() == 'parent') {}
+//     if (MySharedPrefference.getUserType() == 'guardian') {}
 //   }
 
 //   @override

@@ -50,9 +50,11 @@ class _RegisterWomanScreenState extends State<RegisterWomanScreen> {
             womanEmail: _formData['cemail'.trim()].toString(),
             guardianEmail: _formData['gemail'.trim()].toString(),
             id: v,
-            type: 'child',
+            type: 'woman',
           );
           final jsonData = user.toJson();
+          //Update guardians data
+
           await db.set(jsonData).whenComplete(() {
             goTo(context, LoginScreen());
             setState(() {

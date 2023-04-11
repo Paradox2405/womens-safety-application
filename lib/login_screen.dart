@@ -42,12 +42,12 @@ class _LoginScreenState extends State<LoginScreen> {
             .doc(userCredential.user!.uid)
             .get()
             .then((value) {
-          if (value['type'] == 'parent') {
+          if (value['type'] == 'guardian') {
             print(value['type']);
-            MySharedPrefference.saveUserType('parent');
+            MySharedPrefference.saveUserType('guardian');
             goTo(context, GuardianHomeScreen());
           } else {
-            MySharedPrefference.saveUserType('child');
+            MySharedPrefference.saveUserType('woman');
 
             goTo(context, BottomPage());
           }

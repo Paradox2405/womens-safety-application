@@ -43,11 +43,17 @@ class _RegisterGuardianScreenState extends State<RegisterGuardianScreen> {
           final user = UserModel(
               name: _formData['name'].toString(),
               phone: _formData['phone'].toString(),
-              womanEmail: _formData['cemail'].toString(),
+              womanEmail: "",
               guardianEmail: _formData['gemail'].toString(),
               id: v,
-              
-              type: 'parent');
+              guardiansWomenEmails: [
+                _formData['cemail'.trim()].toString(),
+                _formData['c1email'.trim()].toString(),
+                _formData['c2email'.trim()].toString(),
+                _formData['c3email'.trim()].toString(),
+                _formData['c4email'.trim()].toString()
+              ],
+              type: 'guardian');
           final jsonData = user.toJson();
           await db.set(jsonData).whenComplete(() {
             goTo(context, LoginScreen());
@@ -90,167 +96,226 @@ class _RegisterGuardianScreenState extends State<RegisterGuardianScreen> {
               isLoading
                   ? progressIndicator(context)
                   : SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.3,
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                              children: [
-                                Text(
-                                  "REGISTER AS GUARDIAN",
-                                  textAlign: TextAlign.center,
-                                  style: TextStyle(
-                                      fontSize: 40,
-                                      fontWeight: FontWeight.bold,
-                                      color: primaryColor),
-                                ),
-                                Image.asset(
-                                  'assets/logo.png',
-                                  height: 100,
-                                  width: 100,
-                                ),
-                              ],
-                            ),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.75,
-                            child: Form(
-                              key: _formKey,
-                              child: Column(
-                                mainAxisAlignment:
-                                    MainAxisAlignment.spaceEvenly,
+                    child: Column(
+                      children: [
+                        Text(
+                          "REGISTER AS GUARDIAN",
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                              fontSize: 30,
+                              fontWeight: FontWeight.bold,
+                              color: primaryColor),
+                        ),
+                     SizedBox(height: 10.0,),
+                        Image.asset(
+                          'assets/logo.png',
+                          height: 100,
+                          width: 100,
+                        ),
+                        SizedBox(height: 10.0,),
+                        Form(
+                          key: _formKey,
+                          child: Column(
+                            mainAxisAlignment:
+                                MainAxisAlignment.spaceEvenly,
+                            children: [
+                              CustomTextField(
+                                hintText: 'Enter name',
+                                textInputAction: TextInputAction.next,
+                                keyboardtype: TextInputType.name,
+                                prefix: Icon(Icons.person),
+                                onsave: (name) {
+                                  _formData['name'] = name ?? "";
+                                },
+                                validate: (email) {
+                                  if (email!.isEmpty || email.length < 3) {
+                                    return 'Enter correct name';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 10.0,),
+                              CustomTextField(
+                                hintText: 'Enter phone',
+                                textInputAction: TextInputAction.next,
+                                keyboardtype: TextInputType.phone,
+                                prefix: Icon(Icons.phone),
+                                onsave: (phone) {
+                                  _formData['phone'] = phone ?? "";
+                                },
+                                validate: (email) {
+                                  if (email!.isEmpty || email.length < 10) {
+                                    return 'Enter correct phone';
+                                  }
+                                  return null;
+                                },
+                              ),
+                              SizedBox(height: 10.0,),
+                              CustomTextField(
+                                hintText: 'Enter your email',
+                                textInputAction: TextInputAction.next,
+                                keyboardtype: TextInputType.emailAddress,
+                                prefix: Icon(Icons.person),
+                                onsave: (email) {
+                                  _formData['gemail'] = email ?? "";
+                                },
+                                validate: (email) {
+                                  if (email!.isEmpty ||
+                                      email.length < 3 ||
+                                      !email.contains("@")) {
+                                    return 'Enter correct email';
+                                  }
+                                },
+                              ),
+                              SizedBox(height: 10.0,),
+                              Divider(height: 1,color: Colors.grey,),
+                              SizedBox(height: 10.0,),
+                              Row(
                                 children: [
-                                  CustomTextField(
-                                    hintText: 'enter name',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.name,
-                                    prefix: Icon(Icons.person),
-                                    onsave: (name) {
-                                      _formData['name'] = name ?? "";
-                                    },
-                                    validate: (email) {
-                                      if (email!.isEmpty || email.length < 3) {
-                                        return 'enter correct name';
-                                      }
-                                      return null;
-                                    },
+                                  Column(children: [
+                                    SizedBox(width: 25,),
+                                  ],),
+                                  Expanded(
+                                    child: Column(
+                                      children: [
+                                        CustomTextField(
+                                          hintText: 'Enter woman email',
+                                          textInputAction: TextInputAction.next,
+                                          keyboardtype: TextInputType.emailAddress,
+                                          prefix: Icon(Icons.person),
+                                          onsave: (cemail) {
+                                            _formData['cemail'] = cemail ?? "";
+                                          },
+                                          validate: (email) {
+                                            if (email!.isEmpty ||
+                                                email.length < 3 ||
+                                                !email.contains("@")) {
+                                              return 'Enter correct email';
+                                            }
+                                          },
+                                        ),
+                                        SizedBox(height: 10.0,),
+                                        CustomTextField(
+                                          hintText: 'Enter woman 2 email',
+                                          textInputAction: TextInputAction.next,
+                                          keyboardtype: TextInputType.emailAddress,
+                                          prefix: Icon(Icons.person),
+                                          onsave: (c1email) {
+                                            _formData['c1email'] = c1email ?? "";
+                                          },
+
+                                        ),
+                                        SizedBox(height: 10.0,),
+                                        CustomTextField(
+                                          hintText: 'Enter woman 3 email',
+                                          textInputAction: TextInputAction.next,
+                                          keyboardtype: TextInputType.emailAddress,
+                                          prefix: Icon(Icons.person),
+                                          onsave: (c2email) {
+                                            _formData['c2email'] = c2email ?? "";
+                                          },
+                                        ),
+                                        SizedBox(height: 10.0,),
+                                        CustomTextField(
+                                          hintText: 'Enter woman 4 email',
+                                          textInputAction: TextInputAction.next,
+                                          keyboardtype: TextInputType.emailAddress,
+                                          prefix: Icon(Icons.person),
+                                          onsave: (c3email) {
+                                            _formData['c3email'] = c3email ?? "";
+                                          },
+
+                                        ),
+                                        SizedBox(height: 10.0,),
+                                        CustomTextField(
+                                          hintText: 'Enter woman 5 email',
+                                          textInputAction: TextInputAction.next,
+                                          keyboardtype: TextInputType.emailAddress,
+                                          prefix: Icon(Icons.person),
+                                          onsave: (c4email) {
+                                            _formData['c4email'] = c4email ?? "";
+                                          },
+                                        ),
+                                      ],
+                                    ),
                                   ),
-                                  CustomTextField(
-                                    hintText: 'enter phone',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.phone,
-                                    prefix: Icon(Icons.phone),
-                                    onsave: (phone) {
-                                      _formData['phone'] = phone ?? "";
-                                    },
-                                    validate: (email) {
-                                      if (email!.isEmpty || email.length < 10) {
-                                        return 'enter correct phone';
-                                      }
-                                      return null;
-                                    },
-                                  ),
-                                  CustomTextField(
-                                    hintText: 'enter email',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.person),
-                                    onsave: (email) {
-                                      _formData['gemail'] = email ?? "";
-                                    },
-                                    validate: (email) {
-                                      if (email!.isEmpty ||
-                                          email.length < 3 ||
-                                          !email.contains("@")) {
-                                        return 'enter correct email';
-                                      }
-                                    },
-                                  ),
-                                  CustomTextField(
-                                    hintText: 'enter child email',
-                                    textInputAction: TextInputAction.next,
-                                    keyboardtype: TextInputType.emailAddress,
-                                    prefix: Icon(Icons.person),
-                                    onsave: (cemail) {
-                                      _formData['cemail'] = cemail ?? "";
-                                    },
-                                    validate: (email) {
-                                      if (email!.isEmpty ||
-                                          email.length < 3 ||
-                                          !email.contains("@")) {
-                                        return 'enter correct email';
-                                      }
-                                    },
-                                  ),
-                                  CustomTextField(
-                                    hintText: 'enter password',
-                                    isPassword: isPasswordShown,
-                                    prefix: Icon(Icons.vpn_key_rounded),
-                                    validate: (password) {
-                                      if (password!.isEmpty ||
-                                          password.length < 7) {
-                                        return 'enter correct password';
-                                      }
-                                      return null;
-                                    },
-                                    onsave: (password) {
-                                      _formData['password'] = password ?? "";
-                                    },
-                                    suffix: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isPasswordShown = !isPasswordShown;
-                                          });
-                                        },
-                                        icon: isPasswordShown
-                                            ? Icon(Icons.visibility_off)
-                                            : Icon(Icons.visibility)),
-                                  ),
-                                  CustomTextField(
-                                    hintText: 'retype password',
-                                    isPassword: isRetypePasswordShown,
-                                    prefix: Icon(Icons.vpn_key_rounded),
-                                    validate: (password) {
-                                      if (password!.isEmpty ||
-                                          password.length < 7) {
-                                        return 'enter correct password';
-                                      }
-                                      return null;
-                                    },
-                                    onsave: (password) {
-                                      _formData['rpassword'] = password ?? "";
-                                    },
-                                    suffix: IconButton(
-                                        onPressed: () {
-                                          setState(() {
-                                            isRetypePasswordShown =
-                                                !isRetypePasswordShown;
-                                          });
-                                        },
-                                        icon: isRetypePasswordShown
-                                            ? Icon(Icons.visibility_off)
-                                            : Icon(Icons.visibility)),
-                                  ),
-                                  PrimaryButton(
-                                      title: 'REGISTER',
-                                      onPressed: () {
-                                        if (_formKey.currentState!.validate()) {
-                                          _onSubmit();
-                                        }
-                                      }),
                                 ],
                               ),
-                            ),
+                              SizedBox(height: 10.0,),
+                              Divider(height: 1,color: Colors.grey,),
+                              SizedBox(height: 10.0,),
+                              CustomTextField(
+                                hintText: 'Enter password',
+                                isPassword: isPasswordShown,
+                                prefix: Icon(Icons.vpn_key_rounded),
+                                validate: (password) {
+                                  if (password!.isEmpty ||
+                                      password.length < 7) {
+                                    return 'Enter correct password';
+                                  }
+                                  return null;
+                                },
+                                onsave: (password) {
+                                  _formData['password'] = password ?? "";
+                                },
+                                suffix: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isPasswordShown = !isPasswordShown;
+                                      });
+                                    },
+                                    icon: isPasswordShown
+                                        ? Icon(Icons.visibility_off)
+                                        : Icon(Icons.visibility)),
+                              ),
+                              SizedBox(height: 10.0,),
+                              CustomTextField(
+                                hintText: 'Retype password',
+                                isPassword: isRetypePasswordShown,
+                                prefix: Icon(Icons.vpn_key_rounded),
+                                validate: (password) {
+                                  if (password!.isEmpty ||
+                                      password.length < 7) {
+                                    return 'Enter correct password';
+                                  }
+                                  return null;
+                                },
+                                onsave: (password) {
+                                  _formData['rpassword'] = password ?? "";
+                                },
+                                suffix: IconButton(
+                                    onPressed: () {
+                                      setState(() {
+                                        isRetypePasswordShown =
+                                            !isRetypePasswordShown;
+                                      });
+                                    },
+                                    icon: isRetypePasswordShown
+                                        ? Icon(Icons.visibility_off)
+                                        : Icon(Icons.visibility)),
+                              ),
+                              SizedBox(height: 10.0,),
+                              PrimaryButton(
+                                  title: 'REGISTER',
+                                  onPressed: () {
+                                    if (_formKey.currentState!.validate()) {
+                                      _onSubmit();
+                                    }
+                                  }),
+                              SizedBox(height: 20.0,),
+                              SecondaryButton(
+                                  title: 'Login with your account',
+                                  onPressed: () {
+                                    goTo(context, LoginScreen());
+                                  }),
+                              SizedBox(height: 40.0,),
+                            ],
                           ),
-                          SecondaryButton(
-                              title: 'Login with your account',
-                              onPressed: () {
-                                goTo(context, LoginScreen());
-                              }),
-                        ],
-                      ),
+                        ),
+
+                      ],
                     ),
+                  ),
             ],
           ),
         ),
