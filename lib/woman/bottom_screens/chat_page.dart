@@ -20,7 +20,7 @@ class ChatPage extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('users')
             .where('type', isEqualTo: 'parent')
-            .where('childEmail',
+            .where('womanEmail',
                 isEqualTo: FirebaseAuth.instance.currentUser!.email)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -43,7 +43,7 @@ class _RegisterGuardianScreenState extends State<RegisterGuardianScreen> {
           final user = UserModel(
               name: _formData['name'].toString(),
               phone: _formData['phone'].toString(),
-              childEmail: _formData['cemail'].toString(),
+              womanEmail: _formData['cemail'].toString(),
               guardianEmail: _formData['gemail'].toString(),
               id: v,
               
@@ -75,7 +75,7 @@ class _RegisterGuardianScreenState extends State<RegisterGuardianScreen> {
         dialogueBox(context, e.toString());
       }
     }
-    print(_formData['email']);
+    print(_formData['gemail']);
     print(_formData['password']);
   }
 

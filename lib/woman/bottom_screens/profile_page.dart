@@ -28,7 +28,11 @@ class _ProfilePageState extends State<ProfilePage> {
   String? profilePic;
   String? downloadUrl;
   bool isSaving = false;
+
   getDate() async {
+    setState(() {
+      isSaving=true;
+    });
     await FirebaseFirestore.instance
         .collection('users')
         .where('id', isEqualTo: FirebaseAuth.instance.currentUser!.uid)
@@ -47,6 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
     // TODO: implement initState
     super.initState();
     getDate();
+    setState(() {
+      isSaving=false;
+    });
   }
 
   @override

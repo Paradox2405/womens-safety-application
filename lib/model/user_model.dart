@@ -2,13 +2,13 @@ class UserModel {
   String? name;
   String? id;
   String? phone;
-  String? childEmail;
+  String? womanEmail;
   String? guardianEmail;
   String? type;
 
   UserModel(
       {this.name,
-      this.childEmail,
+      this.womanEmail,
       this.id,
       this.guardianEmail,
       this.phone,
@@ -18,8 +18,8 @@ class UserModel {
         'name': name,
         'phone': phone,
         'id': id,
-        'childEmail': childEmail,
-        'guardiantEmail': guardianEmail,
+        'womanEmail': womanEmail,
+        'guardianEmail': guardianEmail,
         'type': type
       };
 }

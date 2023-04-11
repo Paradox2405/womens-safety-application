@@ -31,8 +31,8 @@ class _LoginScreenState extends State<LoginScreen> {
       });
       UserCredential userCredential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(
-              email: _formData['email'].toString(),
-              password: _formData['password'].toString());
+              email: _formData['email'.trim()].toString(),
+              password: _formData['password'.trim()].toString());
       if (userCredential.user != null) {
         setState(() {
           isLoading = false;
@@ -161,19 +161,19 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                "Frogot Password?",
-                                style: TextStyle(fontSize: 18),
-                              ),
-                              SecondaryButton(
-                                  title: 'click here', onPressed: () {}),
-                            ],
-                          ),
-                        ),
+                        // Container(
+                        //   child: Row(
+                        //     mainAxisAlignment: MainAxisAlignment.center,
+                        //     children: [
+                        //       Text(
+                        //         "Frogot Password?",
+                        //         style: TextStyle(fontSize: 18),
+                        //       ),
+                        //       SecondaryButton(
+                        //           title: 'click here', onPressed: () {}),
+                        //     ],
+                        //   ),
+                        // ),
                         SecondaryButton(
                             title: 'Register as Woman',
                             onPressed: () {

@@ -43,7 +43,7 @@ class GuardianHomeScreen extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('users')
             .where('type', isEqualTo: 'child')
-            .where('guardiantEmail',
+            .where('guardianEmail',
                 isEqualTo: FirebaseAuth.instance.currentUser!.email)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

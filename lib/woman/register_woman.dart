@@ -34,8 +34,8 @@ class _RegisterWomanScreenState extends State<RegisterWomanScreen> {
         });
         UserCredential userCredential = await FirebaseAuth.instance
             .createUserWithEmailAndPassword(
-                email: _formData['cemail'].toString(),
-                password: _formData['password'].toString());
+                email: _formData['cemail'.trim()].toString(),
+                password: _formData['password'.trim()].toString());
         if (userCredential.user != null) {
           setState(() {
             isLoading = true;
@@ -45,10 +45,10 @@ class _RegisterWomanScreenState extends State<RegisterWomanScreen> {
               FirebaseFirestore.instance.collection('users').doc(v);
 
           final user = UserModel(
-            name: _formData['name'].toString(),
-            phone: _formData['phone'].toString(),
-            childEmail: _formData['cemail'].toString(),
-            guardianEmail: _formData['gemail'].toString(),
+            name: _formData['name'.trim()].toString(),
+            phone: _formData['phone'.trim()].toString(),
+            womanEmail: _formData['cemail'.trim()].toString(),
+            guardianEmail: _formData['gemail'.trim()].toString(),
             id: v,
             type: 'child',
           );
@@ -79,7 +79,7 @@ class _RegisterWomanScreenState extends State<RegisterWomanScreen> {
         dialogueBox(context, e.toString());
       }
     }
-    print(_formData['email']);
+    print(_formData['cemail']);
     print(_formData['password']);
   }
 
