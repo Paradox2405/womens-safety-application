@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       home: FutureBuilder(
         future: MySharedPrefference.getUserType(),
         builder: (BuildContext context, AsyncSnapshot snapshot) {
-          if (snapshot.data == "") {
+          if (snapshot.data == ""||snapshot.data == null) {
             return LoginScreen();
           }
           if (snapshot.data == "child") {

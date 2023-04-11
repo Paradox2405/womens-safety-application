@@ -29,7 +29,7 @@ class ParentHomeScreen extends StatelessWidget {
                       }
                     },
                     child: Text(
-                      "SING OUT",
+                      "SIGN OUT",
                     ))),
           ],
         ),
