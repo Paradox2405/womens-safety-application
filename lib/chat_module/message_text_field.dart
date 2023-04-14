@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -27,6 +26,13 @@ class _MessageTextFieldState extends State<MessageTextField> {
   String? _curentAddress;
   String? message;
   File? imageFile;
+
+
+  @override
+  void initState() {
+    super.initState();
+    _getCurrentLocation();
+  }
 
   LocationPermission? permission;
   Future getImage() async {
@@ -65,22 +71,23 @@ class _MessageTextFieldState extends State<MessageTextField> {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      Fluttertoast.showToast(msg: "Location permissions are  denind");
+      Fluttertoast.showToast(msg: "Location permissions are  denied");
       if (permission == LocationPermission.deniedForever) {
         Fluttertoast.showToast(
-            msg: "Location permissions are permanently denind");
+            msg: "Location permissions are permanently denied");
       }
     }
     Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            forceAndroidLocationManager: true)
+        desiredAccuracy: LocationAccuracy.high,
+        forceAndroidLocationManager: true)
         .then((Position position) {
       setState(() {
         _curentPosition = position;
-        print(_curentPosition!.latitude);
+        print("Lat: ${_curentPosition!.latitude} Long:${_curentPosition!.longitude}");
         _getAddressFromLatLon();
       });
     }).catchError((e) {
+      print(e);
       Fluttertoast.showToast(msg: e.toString());
     });
   }
@@ -195,18 +202,19 @@ class _MessageTextFieldState extends State<MessageTextField> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             chatsIcon(Icons.location_pin, "location", () async {
-              await _getCurrentLocation();
+
               Future.delayed(Duration(seconds: 2), () {
                 message =
-                    "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude}%2C${_curentPosition!.longitude}. $_curentAddress";
+                    "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude},${_curentPosition!.longitude}";
                 sendMessage(message!, "link");
               });
+              Navigator.pop(context);
             }),
             chatsIcon(Icons.camera_alt, "Camera", () async {
-              await getImageFromCamera();
+              await getImageFromCamera().then((value) =>   Navigator.pop(context));
             }),
             chatsIcon(Icons.insert_photo, "Photo", () async {
-              await getImage();
+              await getImage().then((value) =>   Navigator.pop(context));
             }),
           ],
         ),

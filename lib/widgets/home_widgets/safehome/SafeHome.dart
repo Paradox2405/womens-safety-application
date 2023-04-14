@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:background_sms/background_sms.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -16,42 +18,69 @@ class SafeHome extends StatefulWidget {
 class _SafeHomeState extends State<SafeHome> {
   Position? _curentPosition;
   String? _curentAddress;
+  late var _timer;
+  bool _isLoading=true;
   LocationPermission? permission;
-  _getPermission() async => await [Permission.sms].request();
+
+  @override
+  void initState() {
+    super.initState();
+   _getPermission();
+    _getCurrentLocation();
+    _setTimer();
+  }
+
+  @override
+  void dispose() {
+    _timer.cancel();
+    super.dispose();
+  }
+
+  _getPermission() async {
+    await [Permission.locationWhenInUse].request();
+    await [Permission.sms].request();
+  }
   _isPermissionGranted() async => await Permission.sms.status.isGranted;
   _sendSms(String phoneNumber, String message, {int? simSlot}) async {
     SmsStatus result = await BackgroundSms.sendMessage(
         phoneNumber: phoneNumber, message: message, simSlot: 1);
     if (result == SmsStatus.sent) {
       print("Sent");
-      Fluttertoast.showToast(msg: "send");
+      Fluttertoast.showToast(msg: "sent");
     } else {
       Fluttertoast.showToast(msg: "failed");
     }
   }
 
-  _getCurrentLocation() async {
+_getCurrentLocation() async {
+  Geolocator.getCurrentPosition(
+      desiredAccuracy: LocationAccuracy.high,
+      forceAndroidLocationManager: true)
+      .then((Position position) {
+    setState(() {
+      _isLoading=false;
+      _curentPosition = position;
+      print("Lat: ${_curentPosition!.latitude} Long:${_curentPosition!.longitude}");
+      _getAddressFromLatLon();
+    });
+  }).catchError((e) {
+    print(e);
+    Fluttertoast.showToast(msg: e.toString());
+  });
+}
+  _setTimer() async {
     permission = await Geolocator.checkPermission();
     if (permission == LocationPermission.denied) {
       permission = await Geolocator.requestPermission();
-      Fluttertoast.showToast(msg: "Location permissions are  denied");
+      Fluttertoast.showToast(msg: "Location permissions are denied");
       if (permission == LocationPermission.deniedForever) {
         await Geolocator.requestPermission();
         Fluttertoast.showToast(
             msg: "Location permissions are permanently denied");
       }
     }
-    Geolocator.getCurrentPosition(
-            desiredAccuracy: LocationAccuracy.high,
-            forceAndroidLocationManager: true)
-        .then((Position position) {
-      setState(() {
-        _curentPosition = position;
-        print(_curentPosition!.latitude);
-        _getAddressFromLatLon();
-      });
-    }).catchError((e) {
-      Fluttertoast.showToast(msg: e.toString());
+    _timer=Timer.periodic(Duration(seconds: 10), (timer) {
+  _getCurrentLocation();
     });
   }
 
@@ -70,12 +99,6 @@ class _SafeHomeState extends State<SafeHome> {
     }
   }
 
-  @override
-  void initState() {
-    super.initState();
-    _getPermission();
-    _getCurrentLocation();
-  }
 
   showModelSafeHome(BuildContext context) {
     showModalBottomSheet(
@@ -85,40 +108,36 @@ class _SafeHomeState extends State<SafeHome> {
           height: MediaQuery.of(context).size.height / 1.4,
           child: Padding(
             padding: const EdgeInsets.all(14.0),
-            child: Column(
+            child:_isLoading?Center(child: CircularProgressIndicator()): Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  "SEND YOUR CURRENT LOCATION IMMEDIATELY TO YOU EMERGENCY CONTACTS",
+                  "You are currently at: \n\n ${_curentAddress??""} \n\n SEND YOUR CURRENT LOCATION IMMEDIATELY TO YOU EMERGENCY CONTACTS?",
                   textAlign: TextAlign.center,
                   style: TextStyle(fontSize: 20),
                 ),
-                SizedBox(height: 10),
-                if (_curentPosition != null) Text(_curentAddress!),
-                PrimaryButton(
-                    title: "GET LOCATION",
-                    onPressed: () {
-                      _getCurrentLocation();
-                    }),
-                SizedBox(height: 10),
+                SizedBox(height: 40),
                 PrimaryButton(
                     title: "SEND ALERT",
                     onPressed: () async {
-                      String recipients = "";
                       List<TContact> contactList =
                           await DatabaseHelper().getContactList();
 
                       String messageBody =
-                          "https://www.google.com/maps/search/?api=1&query=33%2C33";
-                      if (await _isPermissionGranted()) {
-                        contactList.forEach((element) {
-                          _sendSms("${element.number}",
-                              "i am in trouble $messageBody");
-                        });
-                      } else {
-                        Fluttertoast.showToast(msg: "something wrong");
+                          "https://www.google.com/maps/search/?api=1&query=${_curentPosition!.latitude},${_curentPosition!.longitude}";
+                      if(contactList.isNotEmpty) {
+                              if (await _isPermissionGranted()) {
+                                contactList.forEach((element) {
+                                  _sendSms("${element.number}",
+                                      "i am in trouble $messageBody");
+                                });
+                              } else {
+                                Fluttertoast.showToast(msg: "something wrong");
+                              }
+                            } else{
+                        Fluttertoast.showToast(msg: "Please add emergency contacts first");
                       }
-                    }),
+                          }),
               ],
             ),
           ),

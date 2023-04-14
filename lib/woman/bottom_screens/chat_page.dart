@@ -8,8 +8,10 @@ import '../../utils/constants.dart';
 class ChatPage extends StatelessWidget {
   const ChatPage({super.key});
 
+
   @override
   Widget build(BuildContext context) {
+    print( FirebaseAuth.instance.currentUser!.email);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.pink,
@@ -20,8 +22,8 @@ class ChatPage extends StatelessWidget {
         stream: FirebaseFirestore.instance
             .collection('users')
             .where('type', isEqualTo: 'guardian')
-            .where('womanEmail',
-                isEqualTo: FirebaseAuth.instance.currentUser!.email)
+            .where('guardiansWomenEmails',
+            arrayContains: FirebaseAuth.instance.currentUser!.email)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (!snapshot.hasData) {

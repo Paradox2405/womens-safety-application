@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
           if (snapshot.data == ""||snapshot.data == null) {
             return LoginScreen();
           }
-          if (snapshot.data == "child") {
+          if (snapshot.data == "woman") {
             return BottomPage();
           }
           if (snapshot.data == "guardian") {

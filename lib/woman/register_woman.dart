@@ -107,7 +107,7 @@ class _RegisterWomanScreenState extends State<RegisterWomanScreen> {
                                   "REGISTER AS WOMAN",
                                   textAlign: TextAlign.center,
                                   style: TextStyle(
-                                      fontSize: 40,
+                                      fontSize: 30,
                                       fontWeight: FontWeight.bold,
                                       color: primaryColor),
                                 ),
