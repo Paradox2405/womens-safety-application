@@ -55,7 +55,7 @@ class PoliceEmergency extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          'call 0-1-5 for emergencies',
+                          'call 1-1-9 for emergencies',
                           style: TextStyle(
                             color: Colors.white,
                             fontSize: MediaQuery.of(context).size.width * 0.045,
